@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 public class SignUpActivity extends Activity implements View.OnClickListener {
 
     ProgressBar progressBar;
-    EditText editTextEmail, editTextPassword;
+    EditText etEmail, etPassword;
 
     private FirebaseAuth mAuth;
 
@@ -28,40 +28,40 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        editTextEmail = (EditText) findViewById(R.id.editTextEmail);
-        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+        etEmail = (EditText) findViewById(R.id.signUpEmail);
+        etPassword = (EditText) findViewById(R.id.signUpPassword);
+        progressBar = (ProgressBar) findViewById(R.id.signUpProgressBar);
 
         mAuth = FirebaseAuth.getInstance();
-        findViewById(R.id.buttonSignUp).setOnClickListener(this);
-        findViewById(R.id.textViewLogin).setOnClickListener(this);
+        findViewById(R.id.signUpButton).setOnClickListener(this);
+        findViewById(R.id.signUpLogin).setOnClickListener(this);
     }
 
     private void registerUser() {
-        String email = editTextEmail.getText().toString().trim();
-        String password = editTextPassword.getText().toString().trim();
+        String email = etEmail.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
 
         if (email.isEmpty()) {
-            editTextEmail.setError("Email is required");
-            editTextEmail.requestFocus();
+            etEmail.setError("Email is required");
+            etEmail.requestFocus();
             return;
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            editTextEmail.setError("Please enter a valid email");
-            editTextEmail.requestFocus();
+            etEmail.setError("Please enter a valid email");
+            etEmail.requestFocus();
             return;
         }
 
         if (password.isEmpty()) {
-            editTextPassword.setError("Password is required");
-            editTextPassword.requestFocus();
+            etPassword.setError("Password is required");
+            etPassword.requestFocus();
             return;
         }
 
         if (password.length() < 6) {
-            editTextPassword.setError("Minimum lenght of password should be 6");
-            editTextPassword.requestFocus();
+            etPassword.setError("Minimum lenght of password should be 6");
+            etPassword.requestFocus();
             return;
         }
 
@@ -72,13 +72,18 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
-                    finish();
+                    Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(new Intent(SignUpActivity .this, LoginActivity.class));
                 } else {
 
-                    if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                    if (task.getException() instanceof FirebaseAuthUserCollisionException)
+                    {
                         Toast.makeText(getApplicationContext(), "You are already registered", Toast.LENGTH_SHORT).show();
 
-                    } else {
+                    }
+                    else
+                    {
                         Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
@@ -91,13 +96,12 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.buttonSignUp:
+            case R.id.signUpButton:
                 registerUser();
                 break;
 
-            case R.id.textViewLogin:
-                finish();
-                startActivity(new Intent(this, MainActivity.class));
+            case R.id.signUpLogin:
+                startActivity(new Intent(this, LoginActivity.class));
                 break;
         }
     }

@@ -5,69 +5,63 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="main.eavj.SignUpActivity">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_height="match_parent"
             android:orientation="vertical"
+            android:gravity="center_vertical"
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
 
             <EditText
-                android:id="@+id/editTextEmail"
+                android:id="@+id/signUpEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:hint="email"
+                android:hint="@string/emailHint"
                 android:inputType="textEmailAddress"
                 android:paddingBottom="15dp"
                 android:textColorHint="@color/colorAccent" />
 
             <EditText
-                android:id="@+id/editTextPassword"
+                android:id="@+id/signUpPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:hint="password"
+                android:hint="@string/passwordHint"
                 android:inputType="textPassword"
                 android:paddingBottom="15dp"
                 android:textColorHint="@color/colorAccent" />
 
             <Button
-                android:id="@+id/buttonSignUp"
+                android:id="@+id/signUpButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="7dp"
-                android:text="Sign Up"
+                android:text="@string/signUp"
                 android:textAllCaps="false"
+                android:fontFamily="sans-serif"
                 android:textColor="@color/colorAccent" />
 
             <TextView
-                android:id="@+id/textViewLogin"
+                android:id="@+id/signUpLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
                 android:text="Already have an account? Login"
                 android:textAlignment="center"
+                android:fontFamily="sans-serif"
                 android:textColor="@color/colorAccent" />
 
+            <ProgressBar
+                android:id="@+id/signUpProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
 
         </LinearLayout>
 
-        <ProgressBar
-            android:id="@+id/progressbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:visibility="gone" />
-
-
-    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">EAVJ</string>
+    <string name="emailHint">Enter your email</string>
+    <string name="passwordHint">Enter your password</string>
+    <string name="login">Login</string>
+    <string name="signUp">Sign up</string>
+    <string name="signUpText">Don\'t have an account? Sign in here</string>
+    <string name="loginText">Already registered? Login here</string>
 </resources>

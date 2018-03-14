@@ -8,4 +8,9 @@
     <string name="loginText">Already registered? Login here</string>
     <string name="createTrip">Create your own trip plan</string>
     <string name="tripIdeas">Trip Ideas</string>
+    <string name="tripList">My trips</string>
+    <string name="tripName">Trip name</string>
+    <string name="viewTrip">View trip</string>
+    <string name="editTrip">Edit trip</string>
+    <string name="deleteTrip">DeleteTrip</string>
 </resources>

@@ -2,6 +2,8 @@ package main.eavj;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.content.Intent;
+import android.view.View;
 //import android.os.Bundle;
 //import android.app.Activity;
 //import android.view.Menu;
@@ -20,6 +22,12 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    public void openTripListWindow(View view)
+    {
+        Intent intent = new Intent(this, TripListActivity.class);
+        startActivity(intent);
     }
 //        setContentView(R.layout.activity_main);
 //

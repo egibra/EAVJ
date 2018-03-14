@@ -21,6 +21,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/tripIdeas" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="openTripListWindow"
+            android:text="@string/tripList" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

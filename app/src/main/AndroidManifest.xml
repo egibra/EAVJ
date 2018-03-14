@@ -18,6 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".TripListActivity"></activity>
     </application>
 
 </manifest>

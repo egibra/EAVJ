@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
 
@@ -59,7 +60,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     }
 
     private void userLogin() {
-        String email = etEmail.getText().toString().trim();
+        final String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
         if (email.isEmpty()) {
@@ -93,9 +94,15 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 progressBar.setVisibility(View.GONE);
                 if(task.isSuccessful())
                 {
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    String email = mAuth.getCurrentUser().getEmail();
+                    Intent intent = new Intent(LoginActivity.this, AdminMainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    if (email.equals("egidijus.brazaitis@gmail.com")) {
+                        startActivity(new Intent(LoginActivity.this, AdminMainActivity.class));
+                    }
+                   else {
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    }
                 }
                 else
                 {

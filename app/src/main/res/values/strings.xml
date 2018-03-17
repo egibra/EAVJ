@@ -16,4 +16,7 @@
     <string name="manageCountries">Manage countries</string>
     <string name="manageCities">Manage cities</string>
     <string name="manageVisitingPlaces">Manage visiting places</string>
+    <string name="searchFriend">Need a friend for a trip?</string>
+    <string name="manageUsers">Manage users</string>
+    <string name="manageComments">Manage comments</string>
 </resources>

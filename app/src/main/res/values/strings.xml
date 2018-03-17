@@ -13,4 +13,7 @@
     <string name="viewTrip">View trip</string>
     <string name="editTrip">Edit trip</string>
     <string name="deleteTrip">DeleteTrip</string>
+    <string name="manageCountries">Manage countries</string>
+    <string name="manageCities">Manage cities</string>
+    <string name="manageVisitingPlaces">Manage visiting places</string>
 </resources>

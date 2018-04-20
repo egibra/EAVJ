@@ -19,5 +19,11 @@ public class TripListActivity extends Activity {
 
     }
 
+    public void openMapWindow(View view)
+    {
+        Intent intent = new Intent(this, TripMapActivity.class);
+        startActivity(intent);
+    }
+
 
 }

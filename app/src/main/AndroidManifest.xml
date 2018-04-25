@@ -28,6 +28,7 @@
         <activity android:name=".TripListActivity" />
         <activity android:name=".TripIdeasActivity" />
         <activity android:name=".AdminMainActivity" />
+        <activity android:name=".TripDetailActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

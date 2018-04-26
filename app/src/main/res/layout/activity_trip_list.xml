@@ -52,6 +52,7 @@
                 android:textColor="@color/buttonTextColor"
                 android:background="@color/buttonColor"
                 android:drawableLeft="@drawable/ic_edit"
+                android:onClick="openEditTripPlanWindow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"/>

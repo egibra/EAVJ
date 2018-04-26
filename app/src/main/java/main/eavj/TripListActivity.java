@@ -25,5 +25,11 @@ public class TripListActivity extends Activity {
         startActivity(intent);
     }
 
+    public void openEditTripPlanWindow(View view)
+    {
+        Intent intent = new Intent(this, EditTripPlanActivity.class);
+        startActivity(intent);
+    }
+
 
 }

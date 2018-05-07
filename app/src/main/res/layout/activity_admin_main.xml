@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/adminCountries"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
@@ -22,7 +22,7 @@
             android:textColor="@color/buttonTextColor" />
 
         <Button
-            android:id="@+id/button7"
+            android:id="@+id/adminCities"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -33,7 +33,7 @@
             android:textColor="@color/buttonTextColor" />
 
         <Button
-            android:id="@+id/button8"
+            android:id="@+id/adminVisitingPlace"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -44,7 +44,7 @@
             android:textColor="@color/buttonTextColor" />
 
         <Button
-            android:id="@+id/button10"
+            android:id="@+id/adminUsers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -54,7 +54,7 @@
             android:text="@string/manageUsers" />
 
         <Button
-            android:id="@+id/button11"
+            android:id="@+id/adminComments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"

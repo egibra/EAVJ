@@ -1,6 +1,7 @@
 package main.eavj.Adapters;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,9 +22,13 @@ import main.eavj.ObjectClasses.City;
 import main.eavj.ObjectClasses.Country;
 import main.eavj.R;
 
+import static android.content.ContentValues.TAG;
+
 public class CountryAdapter extends ArrayAdapter<Country> {
     private Activity context;
     List<Country> countries;
+    DatabaseReference db;
+    List<String> cities = new ArrayList<>();
 
     public CountryAdapter(Activity context, List<Country> countries) {
         super(context, R.layout.layout_country_list, countries);
@@ -37,35 +42,57 @@ public class CountryAdapter extends ArrayAdapter<Country> {
         View listViewItem = inflater.inflate(R.layout.layout_country_list, null, true);
 
         TextView textViewName = (TextView) listViewItem.findViewById(R.id.textViewName);
-        TextView textViewCities = (TextView) listViewItem.findViewById(R.id.textViewCities);
+        final TextView textViewCities = (TextView) listViewItem.findViewById(R.id.textViewCities);
         Country country = countries.get(position);
-        DatabaseReference db;
         db = FirebaseDatabase.getInstance().getReference("cities").child(country.getCountryID());
-        final List<City> cities = new ArrayList<>();
-        db.addListenerForSingleValueEvent(new ValueEventListener() {
+        cities = new ArrayList<>();
+        String citiesString = "";
+        readData(new FirebaseCallback() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren())
-                {
-                    City city = postSnapshot.getValue(City.class);
-                    cities.add(city);
+            public void OnCallback(List<String> list) {
+                String citiesString = "";
+                for (String city: cities
+                        ) {
+                    citiesString += city + ",";
+
                 }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
+                textViewCities.setText(citiesString);
             }
         });
         textViewName.setText(country.getCountryName());
-        String citiesString = "";
-        for (City city: cities
+        for (String city: cities
              ) {
-            citiesString += city.getCityName() + ",";
+            citiesString += city + " ";
 
         }
         textViewCities.setText(citiesString);
 
         return listViewItem;
+    }
+
+    private void readData(final FirebaseCallback firebaseCallback)
+    {
+        db.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren())
+                {
+                    String cityName = ds.child("cityName").getValue(String.class);
+                    cities.add(cityName);
+                }
+                firebaseCallback.OnCallback(cities);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d(TAG, databaseError.getMessage());
+            }
+        });
+
+    }
+
+    private interface FirebaseCallback {
+         void OnCallback(List<String> list);
+
     }
 }

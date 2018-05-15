@@ -86,7 +86,7 @@ public class EditCountryActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         //attaching value event listener
-        databaseCountries.addValueEventListener(new ValueEventListener() {
+        databaseCountries.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 

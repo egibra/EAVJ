@@ -1,26 +1,26 @@
 package main.eavj.Adapters;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
 import java.util.List;
+
+import main.eavj.ObjectClasses.City;
 import main.eavj.ObjectClasses.Country;
 import main.eavj.R;
 
-import static android.content.ContentValues.TAG;
-
-public class CountryAdapter extends ArrayAdapter<Country> {
+public class CityAdapter extends ArrayAdapter<City> {
     private Activity context;
-    List<Country> countries;
+    List<City> cities;
 
-    public CountryAdapter(Activity context, List<Country> countries) {
-        super(context, R.layout.layout_country_list, countries);
+    public CityAdapter(Activity context, List<City> cities) {
+        super(context, R.layout.layout_country_list, cities);
         this.context = context;
-        this.countries = countries;
+        this.cities = cities;
     }
 
     @Override
@@ -29,9 +29,9 @@ public class CountryAdapter extends ArrayAdapter<Country> {
         View listViewItem = inflater.inflate(R.layout.layout_country_list, parent, false);
 
         TextView textViewName = (TextView) listViewItem.findViewById(R.id.textViewName);
-        Country country = countries.get(position);
+        City city = cities.get(position);
 
-        textViewName.setText(country.getCountryName());
+        textViewName.setText(city.getCityName());
         return listViewItem;
     }
 

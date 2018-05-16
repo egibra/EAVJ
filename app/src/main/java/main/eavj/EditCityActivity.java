@@ -21,13 +21,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.eavj.Adapters.CityAdapter;
 import main.eavj.ObjectClasses.City;
 
 public class EditCityActivity extends AppCompatActivity {
     Button buttonAddCity;
     EditText editTextName;
     SeekBar seekBarRating;
-    TextView textViewRating, textViewCountry;
+    TextView textViewCountry;
     ListView listViewCities;
     EditText editTextX;
     EditText editTextY;
@@ -50,8 +51,6 @@ public class EditCityActivity extends AppCompatActivity {
 
         buttonAddCity = (Button) findViewById(R.id.buttonAddCity);
         editTextName = (EditText) findViewById(R.id.editTextName);
-        seekBarRating = (SeekBar) findViewById(R.id.seekBarRating);
-        textViewRating = (TextView) findViewById(R.id.textViewRating);
         textViewCountry = (TextView) findViewById(R.id.textViewCountry);
         listViewCities = (ListView) findViewById(R.id.listViewCities);
         editTextX = (EditText) findViewById(R.id.editTextX);
@@ -60,23 +59,6 @@ public class EditCityActivity extends AppCompatActivity {
         cities = new ArrayList<>();
 
         textViewCountry.setText(intent.getStringExtra("CountryName"));
-
-        seekBarRating.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                textViewRating.setText(String.valueOf(i));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
 
         buttonAddCity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,8 +80,8 @@ public class EditCityActivity extends AppCompatActivity {
                     City city = postSnapshot.getValue(City.class);
                     cities.add(city);
                 }
-             //   TrackList trackListAdapter = new TrackList(ArtistActivity.this, tracks);
-             //   listViewTracks.setAdapter(trackListAdapter);
+                CityAdapter citiesListAdapter = new CityAdapter(EditCityActivity.this, cities);
+                listViewCities.setAdapter(citiesListAdapter);
             }
 
             @Override

@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import main.eavj.Adapters.CountryAdapter;
 import main.eavj.ObjectClasses.Country;
@@ -100,28 +101,61 @@ public class EditCountryActivity extends AppCompatActivity {
                     //adding artist to the list
                     countries.add(country);
                 }
-
-                //creating adapter
                 CountryAdapter countriesAdapter = new CountryAdapter(EditCountryActivity.this, countries);
-                //attaching adapter to the listview
                 listViewCountries.setAdapter(countriesAdapter);
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
     }
-    public void showUpdateDeleteDialog(String countryID, String countryName) {
+
+
+    public void showUpdateDeleteDialog(final String countryID, String countryName) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.activity_update_country_dialogue,null);
         dialogBuilder.setTitle(countryName);
+
+        final EditText editTextName = (EditText) dialogView.findViewById(R.id.editTextName);
+        final Button buttonUpdate = (Button) dialogView.findViewById(R.id.buttonUpdateCountry);
+        final Button buttonDelete = (Button) dialogView.findViewById(R.id.buttonDeleteCountry);
+
         final AlertDialog dialog = dialogBuilder.create();
         dialog.show();
-    }
 
+        buttonUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String name = editTextName.getText().toString().trim();
+                if (!TextUtils.isEmpty(name)) {
+                    updateCountry(countryID, name);
+                    dialog.dismiss();
+                }
+            }
+        });
+
+
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //deleteArtist(artistId);
+                dialog.dismiss();
+            }
+        });
+    }
+    private boolean updateCountry(String id, String name) {
+        //getting the specified artist reference
+        DatabaseReference dR = FirebaseDatabase.getInstance().getReference("country").child(id);
+
+        //updating artist
+        Country artist = new Country(id, name);
+        dR.setValue(artist);
+        Toast.makeText(getApplicationContext(), "Country Updated", Toast.LENGTH_LONG).show();
+        return true;
+    }
     public void addCountry()
     {
         String name = editTextName.getText().toString().trim();

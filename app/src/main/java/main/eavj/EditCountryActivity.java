@@ -87,7 +87,7 @@ public class EditCountryActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         //attaching value event listener
-        databaseCountries.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseCountries.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -116,6 +116,7 @@ public class EditCountryActivity extends AppCompatActivity {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.activity_update_country_dialogue,null);
+        dialogBuilder.setView(dialogView);
         dialogBuilder.setTitle(countryName);
 
         final EditText editTextName = (EditText) dialogView.findViewById(R.id.editTextName);
@@ -141,18 +142,26 @@ public class EditCountryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //deleteArtist(artistId);
+                deleteCountry(countryID);
                 dialog.dismiss();
             }
         });
     }
+
+    private void deleteCountry(String countryID) {
+        DatabaseReference dr = FirebaseDatabase.getInstance().getReference("countries").child(countryID);
+        dr.removeValue();
+        DatabaseReference drCities = FirebaseDatabase.getInstance().getReference("cities").child(countryID);
+        drCities.removeValue();
+    }
+
     private boolean updateCountry(String id, String name) {
         //getting the specified artist reference
-        DatabaseReference dR = FirebaseDatabase.getInstance().getReference("country").child(id);
+        DatabaseReference dR = FirebaseDatabase.getInstance().getReference("countries").child(id);
 
         //updating artist
-        Country artist = new Country(id, name);
-        dR.setValue(artist);
+        Country country = new Country(id, name);
+        dR.setValue(country);
         Toast.makeText(getApplicationContext(), "Country Updated", Toast.LENGTH_LONG).show();
         return true;
     }

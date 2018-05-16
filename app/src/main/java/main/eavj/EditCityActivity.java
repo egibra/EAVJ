@@ -1,10 +1,13 @@
 package main.eavj;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -12,6 +15,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,17 +33,18 @@ import java.util.List;
 import main.eavj.Adapters.CityAdapter;
 import main.eavj.ObjectClasses.City;
 
-public class EditCityActivity extends AppCompatActivity {
+public class EditCityActivity extends AppCompatActivity implements OnMapReadyCallback {
     Button buttonAddCity;
     EditText editTextName;
-    SeekBar seekBarRating;
     TextView textViewCountry;
     ListView listViewCities;
     EditText editTextX;
     EditText editTextY;
     DatabaseReference databaseCities;
-
+    String countryID;
     List<City> cities;
+    private GoogleMap mMap;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_city);
@@ -48,7 +58,7 @@ public class EditCityActivity extends AppCompatActivity {
          * and inside that node we will store all the tracks with unique ids
          * */
         databaseCities = FirebaseDatabase.getInstance().getReference("cities").child(intent.getStringExtra("CountryID"));
-
+        countryID = intent.getStringExtra("CountryID");
         buttonAddCity = (Button) findViewById(R.id.buttonAddCity);
         editTextName = (EditText) findViewById(R.id.editTextName);
         textViewCountry = (TextView) findViewById(R.id.textViewCountry);
@@ -60,6 +70,23 @@ public class EditCityActivity extends AppCompatActivity {
 
         textViewCountry.setText(intent.getStringExtra("CountryName"));
 
+        listViewCities.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                City city = cities.get(i);
+                ShowOnMap(city.getCityName(),city.getX(), city.getY());
+            }
+        });
+
+        listViewCities.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                City city = cities.get(i);
+                showUpdateDeleteDialog(city.getCityID(), city.getCityName());
+                return true;
+            }
+        });
+
         buttonAddCity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,6 +95,73 @@ public class EditCityActivity extends AppCompatActivity {
         });
     }
 
+    private void ShowOnMap(String cityName, String x, String y) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        dialogBuilder.setTitle(cityName);
+        final View dialogView = inflater.inflate(R.layout.activity_trip_map, null);
+        dialogBuilder.setView(dialogView);
+        final AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+        LatLng sydney = new LatLng(-34, 151);
+
+       // mapFragment
+
+    }
+
+    private void showUpdateDeleteDialog(final String cityID, String cityName) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.activity_update_country_dialogue,null);
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.setTitle(cityName);
+
+        final EditText editTextName = (EditText) dialogView.findViewById(R.id.editTextName);
+        final Button buttonUpdate = (Button) dialogView.findViewById(R.id.buttonUpdateCountry);
+        final Button buttonDelete = (Button) dialogView.findViewById(R.id.buttonDeleteCountry);
+
+        final AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+
+        buttonUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String name = editTextName.getText().toString().trim();
+                if (!TextUtils.isEmpty(name)) {
+                    updateCity(cityID, name);
+                    dialog.dismiss();
+                }
+            }
+        });
+
+
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                deleteCity(cityID);
+                dialog.dismiss();
+            }
+        });
+
+    }
+    private void deleteCity(String cityID) {
+        DatabaseReference dr = FirebaseDatabase.getInstance().getReference("cities").child(countryID).child(cityID);
+        dr.removeValue();
+        Toast.makeText(getApplicationContext(), "City Removed", Toast.LENGTH_LONG).show();
+
+    }
+
+    private boolean updateCity(String id, String name) {
+        //getting the specified artist reference
+        DatabaseReference dR = FirebaseDatabase.getInstance().getReference("cities").child(countryID).child(id).child("cityName");
+        dR.setValue(name);
+        Toast.makeText(getApplicationContext(), "City Updated", Toast.LENGTH_LONG).show();
+        return true;
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -93,7 +187,6 @@ public class EditCityActivity extends AppCompatActivity {
 
     private void saveCity() {
         String cityName = editTextName.getText().toString().trim();
-        int rating = seekBarRating.getProgress();
         Float x;
         Float y;
         try {
@@ -113,5 +206,15 @@ public class EditCityActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Please enter city name", Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camera
+        LatLng sydney = new LatLng(-34, 151);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }

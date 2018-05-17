@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -18,6 +19,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+
+import main.eavj.ObjectClasses.User;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
 
@@ -26,13 +36,14 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     TextView tvSignUp;
     Button btnLogin;
     ProgressBar progressBar;
-
+    DatabaseReference db;
+    ArrayList<User> users;
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseDatabase.getInstance().getReference("users");
         etEmail = (EditText) findViewById(R.id.loginEmail);
         etPassword = (EditText) findViewById(R.id.loginPassword);
         tvSignUp = (TextView) findViewById(R.id.loginSignUp);
@@ -40,6 +51,22 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         progressBar = (ProgressBar) findViewById(R.id.loginProgressBar);
         btnLogin.setOnClickListener(this);
         tvSignUp.setOnClickListener(this);
+        db.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                users = new ArrayList<>();
+                for (DataSnapshot dsp : dataSnapshot.getChildren())
+                {
+                    users.add(dsp.getValue(User.class));
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -97,7 +124,13 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     String email = mAuth.getCurrentUser().getEmail();
                     Intent intent = new Intent(LoginActivity.this, AdminMainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    if (email.equals("egidijus.brazaitis@gmail.com")) {
+                    String role = "";
+                    for (User user : users
+                         ) {
+                        if (user.getUserName().equals(email))
+                            role = user.getRole();
+                    }
+                    if (role.equals("admin")) {
                         startActivity(new Intent(LoginActivity.this, AdminMainActivity.class));
                     }
                    else {

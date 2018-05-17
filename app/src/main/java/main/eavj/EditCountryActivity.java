@@ -184,17 +184,4 @@ public class EditCountryActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
-            case R.id.item1:
-            {
-                Toast.makeText(getApplicationContext(), "Share", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 }

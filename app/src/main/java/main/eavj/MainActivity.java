@@ -24,11 +24,18 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
     }
 
+    public void openCreateTripWindow(View view)
+    {
+        Intent intent = new Intent(this, CreateTripActivity.class);
+        startActivity(intent);
+    }
+
     public void openTripListWindow(View view)
     {
         Intent intent = new Intent(this, TripListActivity.class);
         startActivity(intent);
     }
+
     public void openTripIdeasWindow(View view)
     {
         Intent intent = new Intent(this, TripIdeasActivity.class);

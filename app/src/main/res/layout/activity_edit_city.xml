@@ -13,7 +13,7 @@
         android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/linearLayoutTop"/>
+        android:layout_above="@+id/linearLayoutTop"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

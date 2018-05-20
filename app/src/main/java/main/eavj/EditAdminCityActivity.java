@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +32,7 @@ import java.util.List;
 import main.eavj.Adapters.CityAdapter;
 import main.eavj.ObjectClasses.City;
 
-public class EditCityActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class EditAdminCityActivity extends AppCompatActivity implements OnMapReadyCallback {
     Button buttonAddCity;
     EditText editTextName;
     TextView textViewCountry;
@@ -174,7 +173,7 @@ public class EditCityActivity extends AppCompatActivity implements OnMapReadyCal
                     City city = postSnapshot.getValue(City.class);
                     cities.add(city);
                 }
-                CityAdapter citiesListAdapter = new CityAdapter(EditCityActivity.this, cities);
+                CityAdapter citiesListAdapter = new CityAdapter(EditAdminCityActivity.this, cities);
                 listViewCities.setAdapter(citiesListAdapter);
             }
 
@@ -194,7 +193,7 @@ public class EditCityActivity extends AppCompatActivity implements OnMapReadyCal
             y = Float.parseFloat(editTextY.getText().toString());
         }
         catch (NumberFormatException e){
-            Toast.makeText(EditCityActivity.this,"Input was not in correct format", Toast.LENGTH_LONG).show();
+            Toast.makeText(EditAdminCityActivity.this,"Input was not in correct format", Toast.LENGTH_LONG).show();
             return;
         }
         if (!TextUtils.isEmpty(cityName)) {

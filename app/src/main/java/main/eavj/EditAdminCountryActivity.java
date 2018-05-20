@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -24,12 +23,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import main.eavj.Adapters.CountryAdapter;
 import main.eavj.ObjectClasses.Country;
 
-public class EditCountryActivity extends AppCompatActivity {
+public class EditAdminCountryActivity extends AppCompatActivity {
 
     List<Country> countries;
     DatabaseReference databaseCountries;
@@ -64,7 +62,7 @@ public class EditCountryActivity extends AppCompatActivity {
                 Country country = countries.get(i);
 
                 //creating an intent
-                Intent intent = new Intent(getApplicationContext(), EditCityActivity.class);
+                Intent intent = new Intent(getApplicationContext(), EditAdminCityActivity.class);
 
                 //putting artist name and id to intent
                 intent.putExtra("CountryID", country.getCountryID());
@@ -101,7 +99,7 @@ public class EditCountryActivity extends AppCompatActivity {
                     //adding artist to the list
                     countries.add(country);
                 }
-                CountryAdapter countriesAdapter = new CountryAdapter(EditCountryActivity.this, countries);
+                CountryAdapter countriesAdapter = new CountryAdapter(EditAdminCountryActivity.this, countries);
                 listViewCountries.setAdapter(countriesAdapter);
             }
             @Override

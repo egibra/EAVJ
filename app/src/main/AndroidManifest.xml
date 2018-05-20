@@ -17,18 +17,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
         <activity android:name=".MainActivity" />
-        <activity android:name=".SignUpActivity">
+        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".CreateTripActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".TripListActivity" />
+        <activity android:name=".TripIdeasActivity" />
+        <activity android:name=".AdminMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateTripActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".TripListActivity" />
-        <activity android:name=".TripIdeasActivity" />
-        <activity android:name=".AdminMainActivity" />
         <activity android:name=".TripDetailActivity" />
         <activity android:name=".EditTripPlanActivity" />
         <activity android:name=".EditPlaceActivity" />
@@ -48,11 +48,12 @@
             android:name=".TripMapActivity"
             android:label="@string/title_activity_trip_map" />
         <activity
-            android:name=".EditCountryActivity"
-            android:label="@string/title_activity_edit_country">
-        </activity>
+            android:name=".EditAdminCountryActivity"
+            android:label="@string/title_activity_edit_country" />
         <activity android:name=".UpdateCountryDialogue" />
-        <activity android:name=".EditCityActivity"></activity>
+        <activity android:name=".EditAdminCityActivity" />
+        <activity android:name=".EditAdminVisitingPlaceActivity" />
+        <activity android:name=".CrudAdminVisitingPlaceActivity"></activity>
     </application>
 
 </manifest>

@@ -4,27 +4,22 @@
     android:id="@+id/activity_artist"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EditAdminCityActivity"
+    tools:context=".CrudAdminVisitingPlaceActivity"
     android:background="@drawable/admin_background">
 
-    <TextView
-        android:id="@+id/textViewCountry"
-        android:textAlignment="center"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:textStyle="bold"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/linearLayoutTop"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/linearLayoutTop"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
         <EditText
             android:id="@+id/editTextName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter city name" />
+            android:hint="Enter visiting place name"
+            />
         <EditText
             android:id="@+id/editTextX"
             android:layout_width="match_parent"
@@ -35,6 +30,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Y" />
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+            <RadioButton android:id="@+id/radio_eating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.33"
+                android:text="Eating"
+                />
+            <RadioButton android:id="@+id/radio_visiting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Visiting"
+                android:layout_weight="0.33"
+                />
+            <RadioButton android:id="@+id/radio_sleeping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sleeping"
+                android:layout_weight="0.33"
+                />
+        </RadioGroup>
     </LinearLayout>
     <LinearLayout
         android:orientation="horizontal"
@@ -48,7 +67,7 @@
 
 
     <Button
-        android:id="@+id/buttonAddCity"
+        android:id="@+id/buttonAddVisitingPlace"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/linearLayout"
@@ -58,13 +77,13 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/buttonAddCity"
-        android:text="Cities"
+        android:layout_below="@id/buttonAddVisitingPlace"
+        android:text="Visiting places"
         android:textAlignment="center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
     <ListView
-        android:id="@+id/listViewCities"
+        android:id="@+id/listViewVisitingPlaces"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"></ListView>

@@ -59,7 +59,6 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                 {
                     users.add(dsp.getValue(User.class));
                 }
-
             }
 
             @Override

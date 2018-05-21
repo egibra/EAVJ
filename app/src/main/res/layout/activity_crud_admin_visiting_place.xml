@@ -21,6 +21,11 @@
             android:hint="Enter visiting place name"
             />
         <EditText
+            android:id="@+id/editTextAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter address" />
+        <EditText
             android:id="@+id/editTextX"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +39,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="1">
+            android:weightSum="1"
+            android:id="@+id/radioGroup_type">
             <RadioButton android:id="@+id/radio_eating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

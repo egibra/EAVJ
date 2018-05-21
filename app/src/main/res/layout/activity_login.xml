@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="main.eavj.LoginActivity"
-    android:background="@drawable/bc">
+    ><!--android:background="@drawable/bc">-->
 
     <LinearLayout
         android:layout_width="match_parent"

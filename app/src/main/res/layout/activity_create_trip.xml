@@ -22,15 +22,26 @@
 
         <TextView
             android:id="@+id/textView4"
-            android:layout_width="78dp"
-            android:layout_height="29dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="Create Trip"
+            android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="30dp"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="30dp" />
     </LinearLayout>
+
+    <EditText
+        android:id="@+id/tripTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter trip title"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="41dp"
+        tools:layout_editor_absoluteY="150dp"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/txtDateFrom"
@@ -53,7 +64,7 @@
         tools:layout_editor_absoluteY="150dp" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/tripBudget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -64,10 +75,10 @@
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/createTrip"
         android:layout_width="220dp"
         android:layout_height="61dp"
-        android:text="Next"
+        android:text="Create"
         tools:layout_editor_absoluteX="132dp"
         tools:layout_editor_absoluteY="385dp"
         tools:ignore="MissingConstraints" />

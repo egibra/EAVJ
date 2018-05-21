@@ -5,6 +5,8 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 
 public class Trip {
+    private String id;
+    private String title;
     private String dateFrom;
     private String dateTo;
     private float price;
@@ -13,8 +15,10 @@ public class Trip {
 
     public Trip() {}
 
-    public Trip(String dateFrom, String dateTo, float price)
+    public Trip(String id, String title, String dateFrom, String dateTo, float price)
     {
+        this.id = id;
+        this.title = title;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.price = price;
@@ -23,12 +27,16 @@ public class Trip {
     }
 
     public Trip(
+            String id,
+            String title,
             String dateFrom,
             String dateTo,
             float price,
             boolean isDeleted,
             int tripStatus
     ) {
+        this.id = id;
+        this.title = title;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
         this.price = price;
@@ -37,6 +45,10 @@ public class Trip {
     }
 
     /** Getters **/
+
+    public String getId() { return this.id; }
+
+    public String getTitle() { return this.title; }
 
     public String getDateFrom() {
         return this.dateFrom;
@@ -59,6 +71,10 @@ public class Trip {
     }
 
     /** Setters **/
+
+    public void setId(String id) { this.id = id; }
+
+    public void setTitle(String title) { this.title = title; }
 
     public void setDateFrom(String dateFrom) {
         this.dateFrom = dateFrom;

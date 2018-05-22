@@ -77,7 +77,7 @@ public class SignUpActivity extends Activity implements View.OnClickListener {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
-                    String userID = db.push().getKey();
+                    String userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     User user = new User(etEmail.getText().toString().trim(), "basic", userID);
                     db.child(userID).setValue(user);
                     Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);

@@ -2,6 +2,7 @@ package main.eavj;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -9,6 +10,8 @@ import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -32,6 +35,8 @@ public class CreateTripActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_trip);
+
+        Intent intent = getIntent();
 
         databaseTrip = FirebaseDatabase.getInstance().getReference("trip");
         tripTitle = (EditText) findViewById(R.id.tripTitle);
@@ -127,7 +132,8 @@ public class CreateTripActivity extends Activity {
 
         String id = databaseTrip.push().getKey();
         Trip trip = new Trip(id, title, dateFrom, dateTo, price);
-        databaseTrip.child(id).setValue(trip);
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        databaseTrip.child(uid).child(id).setValue(trip);
         clearFields();
         Toast.makeText(this, "Trip added", Toast.LENGTH_LONG).show();
     }

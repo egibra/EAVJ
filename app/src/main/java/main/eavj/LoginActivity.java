@@ -1,9 +1,11 @@
 package main.eavj;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,6 +15,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -38,34 +42,61 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     ProgressBar progressBar;
     DatabaseReference db;
     ArrayList<User> users;
+
+    private static final String TAG = "LoginActivity";
+    private static final int ERROR_DIALOG_REQUEST = 9001;
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseDatabase.getInstance().getReference("users");
-        etEmail = (EditText) findViewById(R.id.loginEmail);
-        etPassword = (EditText) findViewById(R.id.loginPassword);
-        tvSignUp = (TextView) findViewById(R.id.loginSignUp);
-        btnLogin = (Button) findViewById(R.id.loginBtnLogin);
-        progressBar = (ProgressBar) findViewById(R.id.loginProgressBar);
-        btnLogin.setOnClickListener(this);
-        tvSignUp.setOnClickListener(this);
-        db.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                users = new ArrayList<>();
-                for (DataSnapshot dsp : dataSnapshot.getChildren())
-                {
-                    users.add(dsp.getValue(User.class));
+        //if (isServicesOK()) {
+            setContentView(R.layout.activity_login);
+            mAuth = FirebaseAuth.getInstance();
+            db = FirebaseDatabase.getInstance().getReference("users");
+            etEmail = (EditText) findViewById(R.id.loginEmail);
+            etPassword = (EditText) findViewById(R.id.loginPassword);
+            tvSignUp = (TextView) findViewById(R.id.loginSignUp);
+            btnLogin = (Button) findViewById(R.id.loginBtnLogin);
+            progressBar = (ProgressBar) findViewById(R.id.loginProgressBar);
+            btnLogin.setOnClickListener(this);
+            tvSignUp.setOnClickListener(this);
+            db.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    users = new ArrayList<>();
+                    for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+                        users.add(dsp.getValue(User.class));
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+     //   }
+    }
+
+    public boolean isServicesOK(){
+        Log.d(TAG, "isServicesOK: checking google services version");
+
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(LoginActivity.this);
+        if(available == ConnectionResult.SUCCESS)
+        {
+            Log.d(TAG, "isServicesOK: Google Play Services is working");
+        }
+        else if (GoogleApiAvailability.getInstance().isUserResolvableError(available))
+        {
+            Log.d(TAG, "isServicesOK: an error occured but we can fix it.");
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(LoginActivity.this,available,ERROR_DIALOG_REQUEST);
+            dialog.show();
+
+        }
+        else
+        {
+            Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();
+        }
+        return false;
+
     }
 
     @Override

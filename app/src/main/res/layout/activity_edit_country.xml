@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/LinearLay1">
-    <EditText
-        android:id="@+id/editTextName"
+    <AutoCompleteTextView
+        android:id="@+id/AutoCompleteName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter country" />

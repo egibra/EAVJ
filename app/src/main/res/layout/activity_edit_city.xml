@@ -20,8 +20,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/linearLayoutTop"
         android:orientation="vertical">
-        <EditText
-            android:id="@+id/editTextName"
+        <AutoCompleteTextView
+            android:id="@+id/AutoCompleteName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter city name" />

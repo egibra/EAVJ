@@ -3,6 +3,7 @@ package main.eavj;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -10,11 +11,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,17 +32,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.eavj.Adapters.CountryAdapter;
+import main.eavj.Adapters.PlaceAutoCompleteAdapter;
 import main.eavj.ObjectClasses.Country;
 
-public class EditAdminCountryActivity extends AppCompatActivity {
+public class EditAdminCountryActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
     List<Country> countries;
     DatabaseReference databaseCountries;
-    EditText editTextName;
+    AutoCompleteTextView autoCompleteName;
     EditText editTextX;
     EditText editTextY;
     ListView listViewCountries;
     Button addCountry;
+    private GoogleApiClient mGoogleApiClient;
+    private static final LatLngBounds LAT_LNG_BOUNDS = new LatLngBounds(
+            new LatLng(-40, -168), new LatLng(71, 136));
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +59,20 @@ public class EditAdminCountryActivity extends AppCompatActivity {
         countries = new ArrayList<>();
 
         databaseCountries = FirebaseDatabase.getInstance().getReference("countries");
-        editTextName = (EditText) findViewById(R.id.editTextName);
+        autoCompleteName = (AutoCompleteTextView) findViewById(R.id.AutoCompleteName);
         editTextX = (EditText) findViewById(R.id.editTextX);
         editTextY = (EditText) findViewById(R.id.editTextY);
         addCountry = (Button) findViewById(R.id.buttonAddCountry);
         listViewCountries = (ListView) findViewById(R.id.listViewCountries);
+        mGoogleApiClient = new GoogleApiClient
+                .Builder(this)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .enableAutoManage(this, this)
+                .build();
+
+        PlaceAutoCompleteAdapter placeAutoCompleteAdapter = new PlaceAutoCompleteAdapter(this, mGoogleApiClient,LAT_LNG_BOUNDS, null);
+        autoCompleteName.setAdapter(placeAutoCompleteAdapter);
         addCountry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -165,13 +189,13 @@ public class EditAdminCountryActivity extends AppCompatActivity {
     }
     public void addCountry()
     {
-        String name = editTextName.getText().toString().trim();
+        String name = autoCompleteName.getText().toString().trim();
         if(!TextUtils.isEmpty(name))
         {
             String id = databaseCountries.push().getKey();
             Country country = new Country(id, name);
             databaseCountries.child(id).setValue(country);
-            editTextName.setText("");
+            autoCompleteName.setText("");
             Toast.makeText(this, "Country added", Toast.LENGTH_LONG).show();
         }
     }

@@ -2,23 +2,29 @@ package main.eavj;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,11 +36,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.eavj.Adapters.CityAdapter;
+import main.eavj.Adapters.PlaceAutoCompleteAdapter;
 import main.eavj.ObjectClasses.City;
 
-public class EditAdminCityActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class EditAdminCityActivity extends AppCompatActivity implements OnMapReadyCallback , GoogleApiClient.OnConnectionFailedListener {
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
     Button buttonAddCity;
-    EditText editTextName;
+    AutoCompleteTextView autoCompleteName;
     TextView textViewCountry;
     ListView listViewCities;
     EditText editTextX;
@@ -43,6 +55,9 @@ public class EditAdminCityActivity extends AppCompatActivity implements OnMapRea
     String countryID;
     List<City> cities;
     private GoogleMap mMap;
+    private GoogleApiClient mGoogleApiClient;
+    private static final LatLngBounds LAT_LNG_BOUNDS = new LatLngBounds(
+            new LatLng(-40, -168), new LatLng(71, 136));
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,13 +74,24 @@ public class EditAdminCityActivity extends AppCompatActivity implements OnMapRea
         databaseCities = FirebaseDatabase.getInstance().getReference("cities").child(intent.getStringExtra("CountryID"));
         countryID = intent.getStringExtra("CountryID");
         buttonAddCity = (Button) findViewById(R.id.buttonAddCity);
-        editTextName = (EditText) findViewById(R.id.editTextName);
+        autoCompleteName = (AutoCompleteTextView) findViewById(R.id.AutoCompleteName);
         textViewCountry = (TextView) findViewById(R.id.textViewCountry);
         listViewCities = (ListView) findViewById(R.id.listViewCities);
         editTextX = (EditText) findViewById(R.id.editTextX);
         editTextY = (EditText) findViewById(R.id.editTextY);
 
         cities = new ArrayList<>();
+        mGoogleApiClient = new GoogleApiClient
+                .Builder(this)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .enableAutoManage(this, this)
+                .build();
+
+        PlaceAutoCompleteAdapter placeAutoCompleteAdapter = new PlaceAutoCompleteAdapter(this, mGoogleApiClient,LAT_LNG_BOUNDS, null);
+        autoCompleteName.setAdapter(placeAutoCompleteAdapter);
+
+
 
         textViewCountry.setText(intent.getStringExtra("CountryName"));
 
@@ -185,7 +211,7 @@ public class EditAdminCityActivity extends AppCompatActivity implements OnMapRea
     }
 
     private void saveCity() {
-        String cityName = editTextName.getText().toString().trim();
+        String cityName = autoCompleteName.getText().toString().trim();
         Float x;
         Float y;
         try {
@@ -201,7 +227,7 @@ public class EditAdminCityActivity extends AppCompatActivity implements OnMapRea
             City city = new City(id, cityName, x.toString(), y.toString());
             databaseCities.child(id).setValue(city);
             Toast.makeText(this, "City saved", Toast.LENGTH_LONG).show();
-            editTextName.setText("");
+            autoCompleteName.setText("");
         } else {
             Toast.makeText(this, "Please enter city name", Toast.LENGTH_LONG).show();
         }
@@ -216,4 +242,5 @@ public class EditAdminCityActivity extends AppCompatActivity implements OnMapRea
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
+
 }

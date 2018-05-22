@@ -43,9 +43,9 @@ public class VisitingPlaceAdapter extends ArrayAdapter<VisitingPlace> {
         textViewAddress.setText(visitingPlace.getAddress());
 
         Drawable sleep = this.context.getResources().getDrawable(R.drawable.sleep);
-        int drawableVisitingId = this.context.getResources().getIdentifier("place", "drawable", context.getPackageName());
-        int drawableEatingId = this.context.getResources().getIdentifier("eating", "drawable", context.getPackageName());
-        int drawableSleepId = this.context.getResources().getIdentifier("sleep", "drawable", context.getPackageName());
+        int drawableVisitingId = this.context.getResources().getIdentifier("ic_visiting", "drawable", context.getPackageName());
+        int drawableEatingId = this.context.getResources().getIdentifier("ic_eating", "drawable", context.getPackageName());
+        int drawableSleepId = this.context.getResources().getIdentifier("ic_sleep", "drawable", context.getPackageName());
         int otherId = this.context.getResources().getIdentifier("add", "drawable", context.getPackageName());
         imageViewCategory.setImageResource(otherId);
 

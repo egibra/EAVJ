@@ -19,21 +19,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".SignUpActivity"></activity>
-        <activity android:name=".CreateTripActivity" />
-        <activity android:name=".LoginActivity" >
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".CreateTripActivity" />
+        <activity android:name=".VisitingPlaceCountryListActivity" />
+        <activity android:name=".VisitingPlaceCityListActivity" />
+        <activity android:name=".VisitingPlaceListActivity" />
+        <activity android:name=".VisitingPlaceActivity" />
+        <activity android:name=".LoginActivity" />
         <activity android:name=".TripListActivity" />
         <activity android:name=".TripIdeasActivity" />
-        <activity android:name=".AdminMainActivity">
-
-        </activity>
+        <activity android:name=".AdminMainActivity"/>
         <activity android:name=".TripDetailActivity" />
         <activity android:name=".EditTripPlanActivity" />
         <activity android:name=".EditPlaceActivity" />

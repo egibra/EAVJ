@@ -30,6 +30,12 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
+    public void openVisitingPlaceListWindow(View view)
+    {
+        Intent intent = new Intent(this, VisitingPlaceCountryListActivity.class);
+        startActivity(intent);
+    }
+
     public void openTripListWindow(View view)
     {
         Intent intent = new Intent(this, TripListActivity.class);

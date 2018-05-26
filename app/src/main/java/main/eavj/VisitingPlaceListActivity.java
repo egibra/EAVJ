@@ -50,7 +50,9 @@ public class VisitingPlaceListActivity extends Activity {
 
                 //putting artist name and id to intent
                 intent.putExtra("VisitingPlaceID", visitingPlace.getVisitingPlaceID());
-                intent.putExtra("VisitingPlaceName", visitingPlace.getName());
+                intent.putExtra("VisitingPlaceTitle", visitingPlace.getName());
+                intent.putExtra("VisitingPlaceAddress", visitingPlace.getAddress());
+                intent.putExtra("VisitingPlaceCategory", visitingPlace.getCategory());
 
                 //starting the activity with intent
                 startActivity(intent);

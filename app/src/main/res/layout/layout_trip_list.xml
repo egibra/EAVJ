@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/tripTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:text="Name"
+            android:textSize="20sp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+
+            />
+
+        <Button
+            android:id="@+id/tripView"
+            android:textColor="@color/buttonTextColor"
+            android:background="@color/buttonColor"
+            android:drawableLeft="@drawable/ic_eye"
+            android:onClick="openMapWindow"
+            android:drawableStart="@drawable/ic_eye"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/tripTitle"
+            android:layout_toEndOf="@+id/tripTitle"
+           />
+
+        <Button
+            android:id="@+id/tripEdit"
+            android:textColor="@color/buttonTextColor"
+            android:background="@color/buttonColor"
+            android:drawableLeft="@drawable/ic_edit"
+            android:onClick="openEditTripPlanWindow"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/tripView"
+            android:layout_toEndOf="@+id/tripView"
+
+            android:drawableStart="@drawable/ic_edit" />
+
+        <Button
+            android:id="@+id/tripDelete"
+            android:textColor="@color/buttonTextColor"
+            android:background="@color/buttonColor"
+            android:drawableLeft="@drawable/ic_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_delete"
+            android:layout_alignLeft="@+id/tripEdit"
+            android:layout_alignStart="@+id/tripEdit"/>
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

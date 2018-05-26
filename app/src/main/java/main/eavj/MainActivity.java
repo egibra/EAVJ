@@ -38,8 +38,13 @@ public class MainActivity extends Activity {
 
     public void openTripListWindow(View view)
     {
-        Intent intent = new Intent(this, TripListActivity.class);
-        startActivity(intent);
+        Intent intentt = new Intent(getApplicationContext(), TripListActivity.class);
+        Intent intent = getIntent();
+        //putting artist name and id to intent
+        intentt.putExtra("userID", intent.getStringExtra("userID"));
+
+        //starting the activity with intent
+        startActivity(intentt);
     }
 
     public void openTripIdeasWindow(View view)

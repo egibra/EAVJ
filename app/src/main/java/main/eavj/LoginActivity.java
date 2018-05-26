@@ -155,16 +155,26 @@ public class LoginActivity extends Activity implements View.OnClickListener {
                     Intent intent = new Intent(LoginActivity.this, AdminMainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     String role = "";
+                    String userId ="";
                     for (User user : users
                          ) {
-                        if (user.getUserName().equals(email))
+                        if (user.getUserName().equals(email)) {
                             role = user.getRole();
+                            userId = user.getUserID();
+                        }
                     }
                     if (role.equals("admin")) {
                         startActivity(new Intent(LoginActivity.this, AdminMainActivity.class));
                     }
                    else {
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        Intent intentt = new Intent(getApplicationContext(), MainActivity.class);
+
+                        //putting artist name and id to intent
+                        intentt.putExtra("userID", userId);
+
+                        //starting the activity with intent
+                        startActivity(intentt);
+
                     }
                 }
                 else

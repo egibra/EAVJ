@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Visiting place"
+        android:textAlignment="center"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+    <TextView
+        android:id="@+id/placeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView"
+        android:text="Place title"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/placeAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/placeTitle"
+        android:text="Place address"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/placeCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/placeAddress"
+        android:text="Place category"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/addToPersonalList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/placeCategory"
+        android:layout_centerHorizontal="true"
+        android:text="Add to Personal Visiting Places" />
+
+    <TextView
+        android:id="@+id/ReviewTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addToPersonalList"
+        android:text="Reviews"
+        android:textAlignment="center" />
+
+    <ListView
+        android:id="@+id/listViewPlaceReviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ReviewTitle"/>
+
+    <EditText
+        android:id="@+id/editTextComment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter your review about the place"
+        android:layout_below="@+id/listViewPlaceReviews" />
+
+    <Button
+        android:id="@+id/addReviewComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextComment"
+        android:layout_centerHorizontal="true"
+        android:text="Add Review" />
+</RelativeLayout>

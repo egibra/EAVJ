@@ -52,6 +52,11 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, TripIdeasActivity.class);
         startActivity(intent);
     }
+
+    public void openFriendSearchWindow(View view) {
+        Intent intent = new Intent(this, FriendSearchActivity.class);
+        startActivity(intent);
+    }
 //        setContentView(R.layout.activity_main);
 //
 //        button1 = (Button) findViewById(R.id.button1);

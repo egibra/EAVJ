@@ -1,16 +1,10 @@
 package main.eavj;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
-
-import main.eavj.Adapters.CountryAdapter;
-import main.eavj.Adapters.TripAdapter;
-import main.eavj.ObjectClasses.Country;
-import main.eavj.ObjectClasses.Trip;
-
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -22,28 +16,31 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.eavj.Adapters.TripAdapter;
+import main.eavj.ObjectClasses.Trip;
 
-public class TripListActivity extends AppCompatActivity {
+public class FriendSearchActivity extends AppCompatActivity {
     ListView tripListView;
     DatabaseReference db;
     List<Trip> trips;
-
-
     @Override
-    protected void onCreate(Bundle savedInstanceState)  {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        setContentView(R.layout.activity_trip_list);
-        db = FirebaseDatabase.getInstance().getReference("trip").child(intent.getStringExtra("userID"));
+        setContentView(R.layout.activity_friend_search);
+        db = FirebaseDatabase.getInstance().getReference("trip");
         tripListView = (ListView) findViewById(R.id.tripListView);
         trips = new ArrayList<>();
-//        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-//            Trip trip = postSnapshot.getValue(Trip.class);
-//            trips.add(trip);
-//        }
-//        TripAdapter tripAdapter = new TripAdapter(TripListActivity.this, trips);
+        tripListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Trip selectedTrip = trips.get(i);
+                Intent intent = new Intent( getApplicationContext(), MainActivity.class);
+                intent.putExtra("TripID", selectedTrip.getId());
+                intent.putExtra("TripTitle", selectedTrip.getTitle());
+                startActivity(intent);
+            }
+        });
     }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -55,10 +52,13 @@ public class TripListActivity extends AppCompatActivity {
                 trips.clear();
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    Trip trip = postSnapshot.getValue(Trip.class);
-                    trips.add(trip);
+                     for(DataSnapshot childSnap : postSnapshot.getChildren())
+                     {
+                         Trip trip = childSnap.getValue(Trip.class);
+                         trips.add(trip);
+                     }
                 }
-                TripAdapter tripAdapter = new TripAdapter(TripListActivity.this, trips);
+                TripAdapter tripAdapter = new TripAdapter(FriendSearchActivity.this, trips);
                 tripListView.setAdapter(tripAdapter);
             }
             @Override
@@ -67,18 +67,4 @@ public class TripListActivity extends AppCompatActivity {
             }
         });
     }
-
-    public void openMapWindow(View view)
-    {
-        Intent intent = new Intent(this, TripMapActivity.class);
-        startActivity(intent);
-    }
-
-    public void openEditTripPlanWindow(View view)
-    {
-        Intent intent = new Intent(this, EditTripPlanActivity.class);
-        startActivity(intent);
-    }
-
-
 }

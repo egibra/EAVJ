@@ -26,4 +26,5 @@
     <string name="_2018_06_15">2018.06.15</string>
     <string name="title_activity_edit_country">EditCountryActivity</string>
     <string name="google_maps_API_key">AIzaSyAaY7M85BioMP2N0vUI-sENwk5ZuH5p2DU</string>
+    <string name="chatHintMessage">Message...</string>
 </resources>

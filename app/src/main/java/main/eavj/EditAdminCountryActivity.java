@@ -178,10 +178,8 @@ public class EditAdminCountryActivity extends AppCompatActivity implements Googl
     }
 
     private boolean updateCountry(String id, String name) {
-        //getting the specified artist reference
         DatabaseReference dR = FirebaseDatabase.getInstance().getReference("countries").child(id);
 
-        //updating artist
         Country country = new Country(id, name);
         dR.setValue(country);
         Toast.makeText(getApplicationContext(), "Country Updated", Toast.LENGTH_LONG).show();

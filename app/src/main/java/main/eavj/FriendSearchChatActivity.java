@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +32,16 @@ public class FriendSearchChatActivity extends AppCompatActivity {
         Intent intent = getIntent();
         tripID = intent.getStringExtra("TripID");
         fab = (FloatingActionButton) findViewById(R.id.fab);
+        final EditText etMessage = (EditText)findViewById(R.id.input);
+        etMessage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b)
+                    etMessage.setHint("");
+                else
+                    etMessage.setHint("Message...");
+            }
+        });
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

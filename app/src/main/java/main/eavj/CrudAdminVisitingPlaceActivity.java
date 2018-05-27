@@ -1,10 +1,13 @@
 package main.eavj;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -38,12 +41,14 @@ public class CrudAdminVisitingPlaceActivity extends AppCompatActivity {
     String category;
     DatabaseReference db;
     List<VisitingPlace> visitingPlaces;
+    private String cityID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        db = FirebaseDatabase.getInstance().getReference("visiting places").child(intent.getStringExtra("CityID"));
+        cityID = intent.getStringExtra("CityID");
+        db = FirebaseDatabase.getInstance().getReference("visiting places").child(cityID);
         setContentView(R.layout.activity_crud_admin_visiting_place);
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextAddress = (EditText) findViewById(R.id.editTextAddress);
@@ -56,7 +61,14 @@ public class CrudAdminVisitingPlaceActivity extends AppCompatActivity {
         visitingPlaces = new ArrayList<>();
         btnEating.setChecked(true);
         category = "EATING";
-
+        listViewVisitingPlaces.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                VisitingPlace visitingPlace = visitingPlaces.get(i);
+                showUpdateDeleteDialog(visitingPlace.getVisitingPlaceID(),visitingPlace.getName());
+                return true;
+            }
+        });
         radioGroupType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int checkedID) {
@@ -99,7 +111,53 @@ public class CrudAdminVisitingPlaceActivity extends AppCompatActivity {
             }
         });
     }
+    public void showUpdateDeleteDialog(final String visitingPlaceID, String visitingPlaceName) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.activity_update_country_dialogue,null);
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.setTitle(visitingPlaceName);
 
+        final EditText editTextName = (EditText) dialogView.findViewById(R.id.editTextName);
+        final Button buttonUpdate = (Button) dialogView.findViewById(R.id.buttonUpdateCountry);
+        final Button buttonDelete = (Button) dialogView.findViewById(R.id.buttonDeleteCountry);
+
+        final AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+
+        buttonUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String name = editTextName.getText().toString().trim();
+                if (!TextUtils.isEmpty(name)) {
+                    updateVisitingPlace(visitingPlaceID, name);
+                    dialog.dismiss();
+                }
+            }
+        });
+
+
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                deleteVisitingPlace(visitingPlaceID);
+                dialog.dismiss();
+            }
+        });
+    }
+    private void deleteVisitingPlace(String visitingPlaceID) {
+        DatabaseReference dr = FirebaseDatabase.getInstance().getReference("visiting places").child(cityID).child(visitingPlaceID);
+        dr.removeValue();
+    }
+
+    private boolean updateVisitingPlace(String id, String name) {
+
+        DatabaseReference dR = FirebaseDatabase.getInstance().getReference("visiting places").child(cityID).child(id).child("name");
+        dR.setValue(name);
+        Toast.makeText(getApplicationContext(), "Country Updated", Toast.LENGTH_LONG).show();
+        return true;
+    }
     private void insertVisitingPlace() {
         String name = editTextName.getText().toString().trim();
         String address =  editTextAddress.getText().toString().trim();

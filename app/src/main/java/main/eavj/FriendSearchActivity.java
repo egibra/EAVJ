@@ -56,7 +56,8 @@ public class FriendSearchActivity extends AppCompatActivity {
                      for(DataSnapshot childSnap : postSnapshot.getChildren())
                      {
                          Trip trip = childSnap.getValue(Trip.class);
-                         trips.add(trip);
+                         if (trip != null && trip.getSearchForFriend())
+                           trips.add(trip);
                      }
                 }
                 SearchFriendTripsAdapter tripAdapter = new SearchFriendTripsAdapter(FriendSearchActivity.this, trips);

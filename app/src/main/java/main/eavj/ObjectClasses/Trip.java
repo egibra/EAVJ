@@ -12,10 +12,11 @@ public class Trip {
     private float price;
     private boolean isDeleted;
     private int tripStatus;
+    private Boolean searchForFriend;
 
     public Trip() {}
 
-    public Trip(String id, String title, String dateFrom, String dateTo, float price)
+    public Trip(String id, String title, String dateFrom, String dateTo, float price, Boolean searchForFriend)
     {
         this.id = id;
         this.title = title;
@@ -24,6 +25,7 @@ public class Trip {
         this.price = price;
         this.isDeleted = false;
         this.tripStatus = 0;
+        this.searchForFriend = searchForFriend;
     }
 
     public Trip(
@@ -33,7 +35,8 @@ public class Trip {
             String dateTo,
             float price,
             boolean isDeleted,
-            int tripStatus
+            int tripStatus,
+            boolean searchForFriend
     ) {
         this.id = id;
         this.title = title;
@@ -42,6 +45,7 @@ public class Trip {
         this.price = price;
         this.isDeleted = isDeleted;
         this.tripStatus = tripStatus;
+        this.searchForFriend = searchForFriend;
     }
 
     /** Getters **/
@@ -49,6 +53,14 @@ public class Trip {
     public String getId() { return this.id; }
 
     public String getTitle() { return this.title; }
+
+    public Boolean getSearchForFriend() {
+        return searchForFriend;
+    }
+
+    public void setSearchForFriend(Boolean searchForFriend) {
+        this.searchForFriend = searchForFriend;
+    }
 
     public String getDateFrom() {
         return this.dateFrom;

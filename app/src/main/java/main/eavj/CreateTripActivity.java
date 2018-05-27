@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.text.TextUtils;
 import android.widget.Button;
@@ -30,6 +31,7 @@ public class CreateTripActivity extends Activity {
     EditText txtDateTo;
     EditText tripBudget;
     Button createTrip;
+    CheckBox checBoxSearchFriend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class CreateTripActivity extends Activity {
         txtDateTo = (EditText) findViewById(R.id.txtDateTo);
         tripBudget = (EditText) findViewById(R.id.tripBudget);
         createTrip = (Button) findViewById(R.id.createTrip);
-
+        checBoxSearchFriend = (CheckBox) findViewById(R.id.searchFriend);
         createTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,6 +119,7 @@ public class CreateTripActivity extends Activity {
         Date yesterday = cal.getTime();
 
         try {
+
             dateFromX = sdf.parse(dateFrom);
             dateToX = sdf.parse(dateTo);
             if (dateToX.before(dateFromX) || yesterday.after(dateFromX)) {
@@ -131,7 +134,7 @@ public class CreateTripActivity extends Activity {
         }
 
         String id = databaseTrip.push().getKey();
-        Trip trip = new Trip(id, title, dateFrom, dateTo, price);
+        Trip trip = new Trip(id, title, dateFrom, dateTo, price, checBoxSearchFriend.isChecked());
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         databaseTrip.child(uid).child(id).setValue(trip);
         clearFields();

@@ -16,6 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.eavj.Adapters.SearchFriendTripsAdapter;
 import main.eavj.Adapters.TripAdapter;
 import main.eavj.ObjectClasses.Trip;
 
@@ -34,7 +35,7 @@ public class FriendSearchActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Trip selectedTrip = trips.get(i);
-                Intent intent = new Intent( getApplicationContext(), MainActivity.class);
+                Intent intent = new Intent( getApplicationContext(), FriendSearchChatActivity.class);
                 intent.putExtra("TripID", selectedTrip.getId());
                 intent.putExtra("TripTitle", selectedTrip.getTitle());
                 startActivity(intent);
@@ -58,7 +59,7 @@ public class FriendSearchActivity extends AppCompatActivity {
                          trips.add(trip);
                      }
                 }
-                TripAdapter tripAdapter = new TripAdapter(FriendSearchActivity.this, trips);
+                SearchFriendTripsAdapter tripAdapter = new SearchFriendTripsAdapter(FriendSearchActivity.this, trips);
                 tripListView.setAdapter(tripAdapter);
             }
             @Override

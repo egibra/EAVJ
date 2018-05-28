@@ -2,14 +2,15 @@ package main.eavj;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.Toast;
+import android.widget.CheckBox;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,6 +21,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import android.app.AlertDialog;
+import android.app.Dialog;
 
 import main.eavj.ObjectClasses.Trip;
 
@@ -28,10 +31,10 @@ public class CreateTripActivity extends Activity {
     DatabaseReference databaseTrip;
     EditText tripTitle;
     EditText txtDateFrom;
+    CheckBox checBoxSearchFriend;
     EditText txtDateTo;
     EditText tripBudget;
     Button createTrip;
-    CheckBox checBoxSearchFriend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class CreateTripActivity extends Activity {
         tripBudget = (EditText) findViewById(R.id.tripBudget);
         createTrip = (Button) findViewById(R.id.createTrip);
         checBoxSearchFriend = (CheckBox) findViewById(R.id.searchFriend);
+
         createTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,7 +123,6 @@ public class CreateTripActivity extends Activity {
         Date yesterday = cal.getTime();
 
         try {
-
             dateFromX = sdf.parse(dateFrom);
             dateToX = sdf.parse(dateTo);
             if (dateToX.before(dateFromX) || yesterday.after(dateFromX)) {
@@ -139,7 +142,33 @@ public class CreateTripActivity extends Activity {
         databaseTrip.child(uid).child(id).setValue(trip);
         clearFields();
         Toast.makeText(this, "Trip added", Toast.LENGTH_LONG).show();
+        confirmDialog(id);
     }
+    private void confirmDialog(final String id) {
+        final AlertDialog.Builder tripAsk = new AlertDialog.Builder(CreateTripActivity.this);
+        tripAsk.setMessage("Do you want add trip item?").setCancelable(false).setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intentt = new Intent(getApplicationContext(), CreateTripItemActivity.class);
+
+                        intentt.putExtra("TripID", id);
+
+                        getApplicationContext().startActivity(intentt);
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+
+        });
+        AlertDialog alert = tripAsk.create();
+        alert.setTitle("Dialog");
+        alert.show();
+
+    }
+
 
     private void clearFields()
     {

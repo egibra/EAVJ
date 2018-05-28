@@ -4,30 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    ><!--android:background="@drawable/bc">-->
+    tools:context=".CreateTripItemActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Edit Trip Plan"
-            android:textSize="25dp"
-            tools:layout_editor_absoluteX="131dp"
-            tools:layout_editor_absoluteY="0dp" />
-
         <EditText
-            android:id="@+id/tripTitle"
+            android:id="@+id/tripItemName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name" />
+            android:hint="Enter trip title" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,25 +41,20 @@
                 android:inputType="date" />
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/tripBudget"
+
+        <ListView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:text="Name" />
-        <CheckBox
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/searchFriend"
-            android:text="Search for friend"/>
+            android:layout_weight="1"
+
+            android:layout_height="0dip"
+            android:id="@+id/visitingPlacesCheck">
+        </ListView>
 
         <Button
-            android:id="@+id/updateTrip"
+            android:id="@+id/createTripItem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/updateTrip" />
-
+            android:text="@string/saveTripItem" />
 
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>

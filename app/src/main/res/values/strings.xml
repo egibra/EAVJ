@@ -19,8 +19,13 @@
     <string name="manageVisitingPlaces">Manage visiting places</string>
     <string name="searchFriend">Need a friend for a trip?</string>
     <string name="manageUsers">Manage users</string>
+    <string name="saveTripItem">Save trip item</string>
+    <string name="viewInMap"> View in map</string>
+    <string name="budget"> Budget</string>
+    <string name="updateTrip"> Update trip</string>
     <string name="manageComments">Manage comments</string>
     <string name="title_activity_trip_map">Map</string>
+    <string name="selectedVisitingPlaces">Selected visiting places</string>
     <string name="fr">FR</string>
     <string name="france">France</string>
     <string name="_2018_06_15">2018.06.15</string>

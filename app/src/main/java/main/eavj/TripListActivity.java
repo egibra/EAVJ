@@ -11,6 +11,7 @@ import main.eavj.ObjectClasses.Trip;
 
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 public class TripListActivity extends AppCompatActivity {
@@ -37,6 +39,19 @@ public class TripListActivity extends AppCompatActivity {
         db = FirebaseDatabase.getInstance().getReference("trip").child(intent.getStringExtra("userID"));
         tripListView = (ListView) findViewById(R.id.tripListView);
         trips = new ArrayList<>();
+
+        tripListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Trip trip = trips.get(i);
+
+                Intent intent = new Intent(getApplicationContext(), TripDetailActivity.class);
+
+                intent.putExtra("TripID", trip.getId());
+
+                getApplicationContext().startActivity(intent);
+            }
+        });
 //        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 //            Trip trip = postSnapshot.getValue(Trip.class);
 //            trips.add(trip);
@@ -51,10 +66,9 @@ public class TripListActivity extends AppCompatActivity {
         db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 trips.clear();
-
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
                     Trip trip = postSnapshot.getValue(Trip.class);
                     trips.add(trip);
                 }
@@ -66,19 +80,21 @@ public class TripListActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
-    public void openMapWindow(View view)
-    {
-        Intent intent = new Intent(this, TripMapActivity.class);
-        startActivity(intent);
-    }
-
-    public void openEditTripPlanWindow(View view)
-    {
-        Intent intent = new Intent(this, EditTripPlanActivity.class);
-        startActivity(intent);
-    }
+//    public void openPreviewWindow(View view)
+//    {
+//
+//        Intent intent = new Intent(this, TripDetailActivity.class);
+//        startActivity(intent);
+//    }
+//
+//    public void openEditTripPlanWindow(View view)
+//    {
+//        Intent intent = new Intent(this, EditTripPlanActivity.class);
+//        startActivity(intent);
+//    }
 
 
 }

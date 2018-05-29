@@ -68,7 +68,9 @@
         <activity android:name=".FriendSearchActivity" />
         <activity android:name=".FriendSearchChatActivity"></activity>
         <activity android:name=".TripItemDetailActivity"></activity>
-        <activity android:name=".CreateTripItemActivity"></activity>
+        <activity android:name=".CreateTripItemActivity">
+
+        </activity>
     </application>
 
 </manifest>

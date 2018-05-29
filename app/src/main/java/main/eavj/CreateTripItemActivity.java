@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.util.SparseBooleanArray;
 
@@ -41,10 +44,14 @@ public class CreateTripItemActivity extends AppCompatActivity {
     DatabaseReference databaseTripItemPlace;
     DatabaseReference db;
     List<VisitingPlace> places;
+    List<String> placesNames;
     EditText tripTitle;
     EditText txtDateFrom;
+    TextView placesHeader;
     EditText txtDateTo;
     Button createTripItem;
+    AutoCompleteTextView autoCompleteTextView;
+    String tripItemID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,37 +61,52 @@ public class CreateTripItemActivity extends AppCompatActivity {
         databaseTripItem = FirebaseDatabase.getInstance().getReference("trip item");
         databaseTripItemPlace = FirebaseDatabase.getInstance().getReference("visiting place item");
         db = FirebaseDatabase.getInstance().getReference("visiting places");
-        placesListView = (ListView) findViewById(R.id.visitingPlacesCheck);
+
         places = new ArrayList<>();
+        placesNames = new ArrayList<>();
+        tripItemID = "";
         tripTitle = (EditText) findViewById(R.id.tripItemName);
         txtDateFrom = (EditText) findViewById(R.id.dateFrom);
         txtDateTo = (EditText) findViewById(R.id.dateTo);
         createTripItem = (Button) findViewById(R.id.createTripItem);
+        placesHeader= (TextView) findViewById(R.id.placesHeader);
+        autoCompleteTextView = (AutoCompleteTextView)findViewById(R.id.visitingPlacesComplete);
+
 
         createTripItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 addTripItem();
+                autoCompleteTextView.setVisibility(View.VISIBLE);
+                placesHeader.setVisibility(View.VISIBLE);
             }
         });
 
-//        placesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                //getting the selected artist
-//                VisitingPlace city = places.get(i);
-//
-//                //creating an intent
-////                Intent intent = new Intent(getApplicationContext(), VisitingPlaceListActivity.class);
-//
-//                //putting artist name and id to intent
-////                intent.putExtra("CityID", city.getCityID());
-////                intent.putExtra("CityName", city.getCityName());
-//
-//                //starting the activity with intent
-//                startActivity(intent);
-//            }
-//        });
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+                                    long arg3) {
+                VisitingPlace selected = (VisitingPlace) arg0.getAdapter().getItem(arg2);
+               insertPlace(selected);
+            }
+        });
+
+
+    }
+    private void insertPlace(VisitingPlace selected){
+        Intent intent = getIntent();
+        String tripId = intent.getStringExtra("TripID");
+        String visitingPlaceID =selected.getVisitingPlaceID();
+        DatabaseReference dR = FirebaseDatabase.getInstance().getReference("trip item").child(tripId).child(tripItemID).child("visiting places");
+        String id = dR.push().getKey();
+        dR.child(id).setValue(selected.getVisitingPlaceID());
+        
+//        dR.setValue(selected.getVisitingPlaceID());
+//        databaseTripItem.child(tripId).child(tripItemID).setValue(visitingPlaceID);
+        Toast.makeText(CreateTripItemActivity.this,
+                "Added "  + selected.getName().toString(),
+                Toast.LENGTH_SHORT).show();
     }
 
     public void addTripItem()
@@ -132,13 +154,14 @@ public class CreateTripItemActivity extends AppCompatActivity {
         TripItem tripItem = new TripItem(id, title, dateFrom, dateTo);
         Intent intent = getIntent();
         String tripId = intent.getStringExtra("TripID");
-//
-////        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+//        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         databaseTripItem.child(tripId).child(id).setValue(tripItem);
 
-        clearFields();
+//        clearFields();
         Toast.makeText(this, "Trip item added", Toast.LENGTH_LONG).show();
-        addTripItemPlace(id);
+        tripItemID = id;
+//        addTripItemPlace(id);
     }
 
     public void addTripItemPlace(String id){
@@ -148,6 +171,8 @@ public class CreateTripItemActivity extends AppCompatActivity {
             databaseTripItemPlace.child(id).child(placeId).setValue(item);
         }
     }
+
+
 
 
 
@@ -181,6 +206,8 @@ public class CreateTripItemActivity extends AppCompatActivity {
         });
 
 
+
+
         //attaching value event listener
         db.addValueEventListener(new ValueEventListener() {
             @Override
@@ -193,11 +220,12 @@ public class CreateTripItemActivity extends AppCompatActivity {
                 for (DataSnapshot postSnapshot2 : postSnapshot.getChildren()) {
 
                         VisitingPlace place = postSnapshot2.getValue(VisitingPlace.class);
+//                        placesNames.add(place.getName());
                         places.add(place);
                 }
                 }
-                VisitingPlaceCheckListAdapter placesAdapter = new VisitingPlaceCheckListAdapter(CreateTripItemActivity.this, places);
-                placesListView.setAdapter(placesAdapter);
+                ArrayAdapter<VisitingPlace> adapter = new ArrayAdapter<VisitingPlace>(CreateTripItemActivity.this, R.layout.support_simple_spinner_dropdown_item, places);
+                autoCompleteTextView.setAdapter(adapter);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -205,7 +233,9 @@ public class CreateTripItemActivity extends AppCompatActivity {
             }
         });
 
+
     }
+
     private void clearFields()
     {
         txtDateFrom.setText("");

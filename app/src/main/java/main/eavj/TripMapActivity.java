@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.eavj.Adapters.VisitingPlaceAdapter;
 import main.eavj.ObjectClasses.Trip;
 import main.eavj.ObjectClasses.TripItem;
 import main.eavj.ObjectClasses.VisitingPlace;
@@ -30,6 +31,7 @@ public class TripMapActivity extends FragmentActivity implements OnMapReadyCallb
     private GoogleMap mMap;
     DatabaseReference db;
     DatabaseReference databaseItemsRef;
+    DatabaseReference databaseItemsRefer;
     ListView tripItemsListView;
     List<VisitingPlaceItem> tripItemPlaces;
     List<VisitingPlace> places;
@@ -42,30 +44,27 @@ public class TripMapActivity extends FragmentActivity implements OnMapReadyCallb
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         Intent intent = getIntent();
         databaseItemsRef = FirebaseDatabase.getInstance().getReference("visiting place item").child(intent.getStringExtra("TripItemID"));
+        databaseItemsRefer = FirebaseDatabase.getInstance().getReference("trip item").child(intent.getStringExtra("TripID")).child(intent.getStringExtra("TripItemID")).child("visiting places");
+
         db = FirebaseDatabase.getInstance().getReference("visiting places");
         tripItemPlaces = new ArrayList<>();
         placeIds = new ArrayList<>();
+        places =new ArrayList<>();
 
-        databaseItemsRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+    }
 
 
-                tripItemPlaces.clear();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getPlacesIds();
 
-                    VisitingPlaceItem item = dataSnapshot.getValue(VisitingPlaceItem.class);
-                    placeIds.add(item.getVisitingPlaceId());
-                    tripItemPlaces.add(item);
-                }
 
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
         db.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -77,26 +76,44 @@ public class TripMapActivity extends FragmentActivity implements OnMapReadyCallb
                     for (DataSnapshot postSnapshot2 : postSnapshot.getChildren()) {
 
                         VisitingPlace place = postSnapshot2.getValue(VisitingPlace.class);
+//                        placesNames.add(place.getName());
                         if (placeIds.contains(place.getVisitingPlaceID())) {
                             places.add(place);
                         }
-
                     }
                 }
+
+
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
-
-
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
     }
 
+    private void getPlacesIds(){
+        databaseItemsRefer.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                placeIds.clear();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    String item = postSnapshot.getValue(String.class);
+                    placeIds.add(item);
+//                    tripItemPlaces.add(item);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     /**
      * Manipulates the map once available.

@@ -1,12 +1,16 @@
 package main.eavj.ObjectClasses;
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @IgnoreExtraProperties
 public class TripItem {
     private String id;
     private String title;
     private String dateFrom;
     private String dateTo;
+    private List<String> placesId;
 
 
     public TripItem() {}
@@ -17,6 +21,7 @@ public class TripItem {
         this.title = title;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
+        this.placesId = new ArrayList<>();
     }
 
 
@@ -39,6 +44,7 @@ public class TripItem {
     /** Getters **/
 
     public String getId() { return this.id; }
+    public List<String> getPlacesId(){ return this.placesId;}
 
     public String getTitle() { return this.title; }
 
@@ -61,6 +67,8 @@ public class TripItem {
     /** Setters **/
 
     public void setId(String id) { this.id = id; }
+
+    public void setPlacesId(List<String> placesIds) {this.placesId = placesIds; }
 
     public void setTitle(String title) { this.title = title; }
 

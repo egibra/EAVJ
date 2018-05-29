@@ -40,21 +40,29 @@
                 android:ems="10"
                 android:inputType="date" />
         </LinearLayout>
-
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-
-            android:layout_height="0dip"
-            android:id="@+id/visitingPlacesCheck">
-        </ListView>
-
         <Button
-            android:id="@+id/createTripItem"
+        android:id="@+id/createTripItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/saveTripItem" />
+
+        <TextView
+            android:id="@+id/placesHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/saveTripItem" />
+            android:visibility="invisible"
+            android:text="@string/chooseTripItemPlaces" />
+
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:visibility="invisible"
+            android:layout_height="wrap_content"
+            android:hint="Enter visiting place"
+            android:id="@+id/visitingPlacesComplete"/>
+
+
+
+
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

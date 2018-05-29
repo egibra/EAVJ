@@ -25,6 +25,7 @@
     <string name="updateTrip"> Update trip</string>
     <string name="manageComments">Manage comments</string>
     <string name="title_activity_trip_map">Map</string>
+    <string name="chooseTripItemPlaces">Choose places to visit</string>
     <string name="selectedVisitingPlaces">Selected visiting places</string>
     <string name="fr">FR</string>
     <string name="france">France</string>

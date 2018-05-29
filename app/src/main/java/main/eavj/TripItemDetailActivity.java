@@ -52,13 +52,14 @@ public class TripItemDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_trip_item_detail);
 
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        db = FirebaseDatabase.getInstance().getReference("visiting place item").child(intent.getStringExtra("TripItemID"));
+
         databaseItemsRef = FirebaseDatabase.getInstance().getReference("trip item").child(intent.getStringExtra("TripID")).child(intent.getStringExtra("TripItemID"));
-        databaseItemsRefer = FirebaseDatabase.getInstance().getReference("visiting place item").child(intent.getStringExtra("TripItemID"));
-        databaseVisitingPlaces = FirebaseDatabase.getInstance().getReference("visiting places");
+        databaseItemsRefer = FirebaseDatabase.getInstance().getReference("trip item").child(intent.getStringExtra("TripID")).child(intent.getStringExtra("TripItemID")).child("visiting places");
+        databaseVisitingPlaces =  FirebaseDatabase.getInstance().getReference("visiting places");
 
         placeIds = new ArrayList<>();
         tripItemPlaces = new ArrayList<>();
+        places = new ArrayList<>();
         tripItem = new TripItem();
 
         final TextView title = (TextView)findViewById(R.id.tripTitle);
@@ -114,52 +115,54 @@ public class TripItemDetailActivity extends AppCompatActivity {
 //        });
 
 
-//        mapBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = getIntent();
-//
-//                Intent intentt = new Intent(getApplicationContext(), TripMapActivity.class);
-//                intentt.putExtra("TripItemID", intent.getStringExtra("TripItemID"));
-//                getApplicationContext().startActivity(intentt);
-//            }
-//        });
+        mapBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = getIntent();
+
+                Intent intentt = new Intent(getApplicationContext(), TripMapActivity.class);
+                intentt.putExtra("TripItemID", intent.getStringExtra("TripItemID"));
+                intentt.putExtra("TripID", intent.getStringExtra("TripID"));
+                getApplicationContext().startActivity(intentt);
+            }
+        });
 
     }
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-////        getPlacesIds();
-//
-//
-//        databaseVisitingPlaces.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//
-//                places.clear();
-//
-//                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-//                    for (DataSnapshot postSnapshot2 : postSnapshot.getChildren()) {
-//
-//                        VisitingPlace place = postSnapshot2.getValue(VisitingPlace.class);
-////                        if (placeIds.contains(place.getVisitingPlaceID())) {
-//                            places.add(place);
-////                        }
-//
-//                    }
-//                }
-//
-//                VisitingPlaceAdapter visitingPlaceListAdapter = new VisitingPlaceAdapter(TripItemDetailActivity.this, places);
-//                listViewPlaces.setAdapter(visitingPlaceListAdapter);
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getPlacesIds();
+
+
+
+
+        databaseVisitingPlaces.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                places.clear();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot postSnapshot2 : postSnapshot.getChildren()) {
+
+                        VisitingPlace place = postSnapshot2.getValue(VisitingPlace.class);
+//                        placesNames.add(place.getName());
+                        if (placeIds.contains(place.getVisitingPlaceID())) {
+                            places.add(place);
+                        }
+                    }
+                }
+                VisitingPlaceAdapter visitingPlaceListAdapter = new VisitingPlaceAdapter(TripItemDetailActivity.this, places);
+                listViewPlaces.setAdapter(visitingPlaceListAdapter);
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
     private void getPlacesIds(){
         databaseItemsRefer.addValueEventListener(new ValueEventListener() {
@@ -167,12 +170,12 @@ public class TripItemDetailActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
 
-                tripItemPlaces.clear();
+                placeIds.clear();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
 
-                    VisitingPlaceItem item = dataSnapshot.getValue(VisitingPlaceItem.class);
-                    placeIds.add(item.getVisitingPlaceId());
-                    tripItemPlaces.add(item);
+                    String item = postSnapshot.getValue(String.class);
+                    placeIds.add(item);
+//                    tripItemPlaces.add(item);
                 }
 
             }

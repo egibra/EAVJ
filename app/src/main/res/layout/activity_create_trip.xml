@@ -81,23 +81,26 @@
             android:id="@+id/searchFriend"
             android:layout_width="168dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="15sp"
             android:text="Search for friend" />
-    <Button
-        android:id="@+id/createTrip"
-        android:layout_width="220dp"
-        android:text="Create"
 
-        android:textColor="#FFFFFF"
-        android:layout_height="45dp"
-        android:background="@drawable/button_shape"
-        android:shadowColor="#184CA8"
-        android:shadowDx="0"
-        android:shadowDy="0"
-        android:shadowRadius="5"
+        <Button
+            android:id="@+id/createTrip"
+            android:layout_width="220dp"
+            android:layout_height="45dp"
 
-        tools:layout_editor_absoluteX="132dp"
-        tools:layout_editor_absoluteY="385dp"
-        tools:ignore="MissingConstraints" />
+            android:layout_margin="15sp"
+            android:background="@drawable/button_shape"
+            android:shadowColor="#184CA8"
+            android:shadowDx="0"
+            android:shadowDy="0"
+            android:shadowRadius="5"
+            android:text="Create"
+
+            android:textColor="#FFFFFF"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="132dp"
+            tools:layout_editor_absoluteY="385dp" />
 
     </LinearLayout>
 

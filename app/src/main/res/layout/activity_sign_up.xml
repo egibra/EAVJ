@@ -11,9 +11,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="center_vertical"
             android:paddingLeft="15dp"
+            android:gravity="center"
             android:paddingRight="15dp">
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:text="Plan Your Trip"
+                android:textSize="30sp"  />
 
             <EditText
                 android:id="@+id/signUpEmail"
@@ -37,14 +45,19 @@
 
             <Button
                 android:id="@+id/signUpButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="7dp"
                 android:text="@string/signUp"
                 android:textAllCaps="false"
                 android:fontFamily="sans-serif"
-                android:textColor="@color/colorAccent" />
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:layout_margin="15dp"
+                android:background="@drawable/button_shape"
+                android:shadowColor="#184CA8"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="5"
+                android:textColor="#FFFFFF"/>
 
             <TextView
                 android:id="@+id/signUpLogin"

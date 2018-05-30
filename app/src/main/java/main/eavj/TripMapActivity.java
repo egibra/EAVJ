@@ -128,13 +128,46 @@ public class TripMapActivity extends FragmentActivity implements OnMapReadyCallb
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        for (VisitingPlace place: places ) {
-            double coordX = Double.parseDouble(place.getX());
-            double coordY = Double.parseDouble(place.getY());
-            LatLng plc = new LatLng(coordX, coordY);
-            mMap.addMarker(new MarkerOptions().position(plc).title(place.getName()));
-        }
+        getPlacesIds();
 
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+
+
+        db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                places.clear();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    for (DataSnapshot postSnapshot2 : postSnapshot.getChildren()) {
+
+                        VisitingPlace place = postSnapshot2.getValue(VisitingPlace.class);
+//                        placesNames.add(place.getName());
+                        if (placeIds.contains(place.getVisitingPlaceID())) {
+                            places.add(place);
+                        }
+                    }
+                }
+                LatLng plc = new LatLng(0.0,0.0);
+                for (VisitingPlace place: places ) {
+                    double coordX = Double.parseDouble(place.getX());
+                    double coordY = Double.parseDouble(place.getY());
+                    plc = new LatLng(coordX, coordY);
+                    mMap.addMarker(new MarkerOptions().position(plc).title(place.getName()));
+                }
+
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(plc));
+                mMap.animateCamera( CameraUpdateFactory.zoomTo( 12.0f ) );
+
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }

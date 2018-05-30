@@ -101,7 +101,7 @@ public class CreateTripItemActivity extends AppCompatActivity {
         DatabaseReference dR = FirebaseDatabase.getInstance().getReference("trip item").child(tripId).child(tripItemID).child("visiting places");
         String id = dR.push().getKey();
         dR.child(id).setValue(selected.getVisitingPlaceID());
-        
+
 //        dR.setValue(selected.getVisitingPlaceID());
 //        databaseTripItem.child(tripId).child(tripItemID).setValue(visitingPlaceID);
         Toast.makeText(CreateTripItemActivity.this,
@@ -226,6 +226,7 @@ public class CreateTripItemActivity extends AppCompatActivity {
                 }
                 ArrayAdapter<VisitingPlace> adapter = new ArrayAdapter<VisitingPlace>(CreateTripItemActivity.this, R.layout.support_simple_spinner_dropdown_item, places);
                 autoCompleteTextView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {

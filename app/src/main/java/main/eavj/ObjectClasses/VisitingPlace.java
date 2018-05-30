@@ -71,4 +71,9 @@ public class VisitingPlace {
         this.y = y;
     }
 
+    @Override
+    public String toString()
+    {
+        return Name;
+    }
 }

@@ -67,6 +67,8 @@
         <activity android:name=".CrudAdminVisitingPlaceActivity" />
         <activity android:name=".FriendSearchActivity" />
         <activity android:name=".FriendSearchChatActivity"></activity>
+        <activity android:name=".CreateTripItemActivity"></activity>
+        <activity android:name=".TripItemDetailActivity"></activity>
     </application>
 
 </manifest>

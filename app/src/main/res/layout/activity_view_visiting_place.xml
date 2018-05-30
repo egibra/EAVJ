@@ -39,10 +39,17 @@
     <Button
         android:id="@+id/addToPersonalList"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_below="@+id/placeCategory"
         android:layout_centerHorizontal="true"
-        android:text="Add to Personal Visiting Places" />
+        android:layout_margin="15sp"
+        android:background="@drawable/button_shape"
+        android:shadowColor="#184CA8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:text="Add to Personal Visiting Places"
+        android:textColor="#FFFFFF" />
 
     <TextView
         android:id="@+id/ReviewTitle"

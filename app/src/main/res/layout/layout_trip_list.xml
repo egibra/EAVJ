@@ -16,8 +16,8 @@
 
             <TextView
                 android:id="@+id/tripTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Name"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
@@ -26,27 +26,34 @@
 
             <Button
                 android:id="@+id/tripView"
-                android:layout_width="wrap_content"
+                android:layout_width="70sp"
+                android:gravity="center"
+                android:paddingLeft="12sp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
+                android:layout_marginLeft="15sp"
                 android:layout_toEndOf="@+id/tripTitle"
                 android:layout_toRightOf="@+id/tripTitle"
+                android:background="@drawable/button_shape"
                 android:clickable="true"
 
-                android:background="@color/buttonColor"
                 android:drawableLeft="@drawable/ic_eye"
                 android:drawableStart="@drawable/ic_eye"
-                android:textColor="@color/buttonTextColor" />
 
+                android:textColor="@color/buttonTextColor" />
+            android:background="@drawable/button_shape"
             <Button
                 android:id="@+id/tripEdit"
-                android:layout_width="wrap_content"
+                android:layout_width="70sp"
+                android:gravity="center"
+                android:paddingLeft="12sp"
+                android:background="@drawable/button_shape"
                 android:layout_height="wrap_content"
-                android:clickable="true"
                 android:layout_alignLeft="@+id/tripView"
                 android:layout_alignStart="@+id/tripView"
-                android:background="@color/buttonColor"
+                android:layout_marginLeft="15sp"
 
+                android:clickable="true"
                 android:drawableLeft="@drawable/ic_edit"
                 android:drawableStart="@drawable/ic_edit"
                 android:onClick="openEditTripPlanWindow"
@@ -54,14 +61,17 @@
 
             <Button
                 android:id="@+id/tripDelete"
-                android:layout_width="wrap_content"
+                android:layout_width="70sp"
+                android:gravity="center"
+                android:paddingLeft="12sp"
+                android:background="@drawable/button_shape"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/tripEdit"
                 android:layout_alignStart="@+id/tripEdit"
-                android:background="@color/buttonColor"
+                android:layout_marginLeft="15sp"
+                android:clickable="true"
                 android:drawableLeft="@drawable/ic_delete"
                 android:drawableStart="@drawable/ic_delete"
-                android:clickable="true"
                 android:textColor="@color/buttonTextColor" />
         </LinearLayout>
 
